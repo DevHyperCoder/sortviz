@@ -5,7 +5,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sortviz/SettingsModel.dart';
 import 'package:sortviz/SortViz.dart';
+
+import 'SettingsDialog.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -17,16 +20,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State {
-  int arrayLen = 30;
+  SettingsModel settings =
+      SettingsModel(arraySize: 30, fillMethod: ArrayFillModel.Random);
   List<int> array = [];
+  bool isPlaying = false;
 
   fillArray() {
-    final random = Random();
     setState(() {
-      array = List.generate(arrayLen, (index) {
-        return random.nextInt(100);
-      });
+      array = getArrayContent(settings.arraySize, settings.fillMethod);
     });
+  }
+
+  getArrayContent(int size, ArrayFillModel method) {
+    final random = Random();
+    final list = List.generate(size, (index) {
+      return random.nextInt(100);
+    });
+
+    if (method == ArrayFillModel.Random) {
+      return list;
+    } else {
+      list.sort();
+      return list.reversed.toList();
+    }
   }
 
   void bubbleSort(List<int> list) async {
@@ -36,6 +52,7 @@ class _HomePageState extends State {
     int i, step;
     for (step = 0; step < n; step++) {
       for (i = 0; i < n - step - 1; i++) {
+        if (!isPlaying) return;
         if (list[i] > list[i + 1]) {
           swap(list, i);
           await Future.delayed(Duration(milliseconds: 100));
@@ -54,7 +71,14 @@ class _HomePageState extends State {
   }
 
   start() {
-    bubbleSort(array);
+    final old = isPlaying;
+    setState(() {
+      isPlaying = !isPlaying;
+    });
+
+    if (!old) {
+      bubbleSort(array);
+    }
   }
 
   @override
@@ -72,7 +96,21 @@ class _HomePageState extends State {
               alignment: MainAxisAlignment.start,
               children: [
                 OutlinedButton(child: Text("Randomize"), onPressed: fillArray),
-                OutlinedButton(child: Text("Start"), onPressed: start),
+                IconButton(icon: Icon(Icons.play_arrow), onPressed: start),
+                IconButton(
+                  onPressed: () async {
+                    SettingsModel a = await showDialog(
+                        context: context,
+                        builder: (b) {
+                          return SettingsDialog(settings: settings);
+                        });
+                    setState(() {
+                      settings = a;
+                    });
+                    fillArray();
+                  },
+                  icon: Icon(Icons.settings),
+                ),
                 Text(array.toString())
               ],
             )
