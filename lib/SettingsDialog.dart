@@ -62,7 +62,31 @@ class _SettingsDialogState extends State {
                     return "Select atleast one method";
                   }
                   return null;
-                })
+                }),
+
+            FormBuilderTextField(
+              name: 'delay',
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              initialValue: settings.milliDelay.toString(),
+              validator: (s) {
+                if (s == null) {
+                  return "Delay should not be empty.";
+                }
+
+                try {
+                  final i = int.parse(s);
+                  if (i <= 0) {
+                    return "Delay can not be less than or equal to 0.";
+                  }
+                } catch (e) {
+                  return "Please enter a number.";
+                }
+              },
+              decoration: InputDecoration(
+                  labelText: "Delay duration",
+                  hintText: "Enter the number of milliseconds to wait b.w operations"),
+            ),
           ],
         ),
       ),
@@ -77,6 +101,9 @@ class _SettingsDialogState extends State {
 
               settings.arraySize =
                   int.parse(_key.currentState!.fields["size"]?.value);
+
+              settings.milliDelay =
+                  int.parse(_key.currentState!.fields["delay"]?.value);
 
               final fill = _key.currentState!.fields["array-fill"]?.value;
               settings.fillMethod = stringToArrayFillMethod(fill)!;

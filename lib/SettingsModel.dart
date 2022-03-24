@@ -1,8 +1,9 @@
 class SettingsModel {
   int arraySize;
+  int milliDelay;
   ArrayFillModel fillMethod;
 
-  SettingsModel({required this.arraySize, required this.fillMethod});
+  SettingsModel({required this.arraySize, required this.fillMethod,required this.milliDelay});
 }
 
 enum ArrayFillModel { Random, RandomSortedReverse }
