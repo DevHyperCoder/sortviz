@@ -52,6 +52,9 @@ class _SettingsDialogState extends State {
             ),
             FormBuilderRadioGroup(
                 name: "array-fill",
+                decoration: InputDecoration(
+                  labelText: "Array fill method",
+                ),
                 initialValue: arrayFillMethodToString(settings.fillMethod),
                 options: ["Random", "Sorted - Reverse"]
                     .map((lang) => FormBuilderFieldOption(value: lang))
