@@ -2,6 +2,7 @@
    Home page
 */
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,9 +26,20 @@ class _HomePageState extends State {
   List<int> array = [];
   String algo = "Bubble";
 
+  Stream arrayChanges = Stream.empty();
+  StreamController arrayChangesController = StreamController();
+
+  void dispose() {
+    arrayChangesController.close();
+    super.dispose();
+  }
+
   fillArray() {
+   final content = getArrayContent(settings.arraySize, settings.fillMethod);
+   arrayChangesController.add(content);
+
     setState(() {
-      array = getArrayContent(settings.arraySize, settings.fillMethod);
+      array = content;
     });
   }
 
@@ -154,9 +166,20 @@ class _HomePageState extends State {
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(child: SortViz(array: array)),
-            ButtonBar(
-              alignment: MainAxisAlignment.start,
+            Expanded(child: 
+                StreamBuilder(
+                    stream: arrayChangesController.stream,
+                    builder: (ctx,snap) {
+
+                      if (snap.hasData) {
+                        return SortViz(array: snap.data as List<int>);
+                      } else {
+                        return Text("Randomize the data first");
+                      }
+                    },
+                    ),
+            ),
+            Row(
               children: [
                 OutlinedButton(child: Text("Randomize"), onPressed: fillArray),
                 IconButton(
@@ -193,9 +216,9 @@ class _HomePageState extends State {
                     );
                   }).toList(),
                 ),
-                Text(array.toString())
               ],
-            )
+            ),
+            Text((array.length == 0 ? "Randomize the array" :  array).toString())
           ],
         ),
       ),
