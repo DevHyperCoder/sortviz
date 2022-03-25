@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:sortviz/sorters/bubble.dart';
 import 'package:sortviz/sorters/merge.dart';
+import 'package:sortviz/sorters/quick.dart';
 
 class Sort {
   List<int> _array = [];
@@ -28,6 +29,10 @@ class Sort {
       });
     } else if (algo == "Merge") {
       await mergeSort(_array, _delay, () {
+        arrayController.add(_array);
+      });
+    } else if (algo == "Quick") {
+      await quickSort(_array, _delay, () {
         arrayController.add(_array);
       });
     }

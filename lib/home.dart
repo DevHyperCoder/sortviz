@@ -136,6 +136,7 @@ class _HomePageState extends State {
                   items: <String>[
                     'Bubble',
                     'Merge',
+                    'Quick',
                   ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
