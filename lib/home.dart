@@ -120,7 +120,6 @@ class _HomePageState extends State {
     int i, step;
     for (step = 0; step < n; step++) {
       for (i = 0; i < n - step - 1; i++) {
-        print(isPlaying);
         if (!isPlaying) return;
         if (list[i] > list[i + 1]) {
           swap(list, i);

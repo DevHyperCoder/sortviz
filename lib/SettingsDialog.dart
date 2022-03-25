@@ -58,7 +58,6 @@ class _SettingsDialogState extends State {
                     .toList(growable: false),
                 validator: (s) {
                   if (s == null) {
-                    print("Probably poisoned");
                     return "Select atleast one method";
                   }
                   return null;
