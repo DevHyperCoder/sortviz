@@ -85,8 +85,11 @@ class _HomePageState extends State {
                   return Expanded(
                     child: Column(
                       children: [
-                        Text(snap.data.toString()),
-                        Expanded(child: SortViz(array: snap.data as List<int>))
+                        Expanded(child: SortViz(array: snap.data as List<int>)),
+                        SingleChildScrollView(
+                          child: Text(snap.data.toString()),
+                          scrollDirection: Axis.horizontal,
+                        ),
                       ],
                     ),
                   );
