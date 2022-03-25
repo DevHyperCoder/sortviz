@@ -2,7 +2,6 @@
    Home page
 */
 
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class _HomePageState extends State {
   SettingsModel settings = SettingsModel(
       arraySize: 30, fillMethod: ArrayFillModel.Random, milliDelay: 100);
   String algo = "Bubble";
+  bool isSorting = false;
 
   Sort sort = Sort();
 
@@ -59,7 +59,13 @@ class _HomePageState extends State {
   }
 
   start() async {
+    setState(() {
+      isSorting = true;
+    });
     await sort.sort(algo);
+    setState(() {
+      isSorting = false;
+    });
   }
 
   @override
@@ -76,14 +82,14 @@ class _HomePageState extends State {
               stream: sort.arrayController.stream,
               builder: (ctx, snap) {
                 if (snap.hasData) {
-                  //print("snap: ${snap.data.toString()}");
                   return Expanded(
-                      child: Column(
-                    children: [
-                      Text(snap.data.toString()),
-                      Expanded(child: SortViz(array: snap.data as List<int>))
-                    ],
-                  ));
+                    child: Column(
+                      children: [
+                        Text(snap.data.toString()),
+                        Expanded(child: SortViz(array: snap.data as List<int>))
+                      ],
+                    ),
+                  );
                 } else {
                   return Text("Randomize the data first");
                 }
@@ -91,29 +97,39 @@ class _HomePageState extends State {
             ),
             Row(
               children: [
-                OutlinedButton(child: Text("Randomize"), onPressed: fillArray),
-                IconButton(icon: Icon(Icons.play_arrow), onPressed: start),
+                OutlinedButton(
+                    child: Text("Randomize"),
+                    onPressed: isSorting ? null : fillArray),
                 IconButton(
-                  onPressed: () async {
-                    SettingsModel a = await showDialog(
-                        context: context,
-                        builder: (b) {
-                          return SettingsDialog(settings: settings);
-                        });
-                    setState(() {
-                      settings = a;
-                    });
-                    fillArray();
-                  },
+                    icon: Icon(Icons.play_arrow),
+                    onPressed: isSorting ? null : start),
+                IconButton(
+                  onPressed: isSorting
+                      ? null
+                      : () async {
+                          SettingsModel? a = await showDialog(
+                              context: context,
+                              builder: (b) {
+                                return SettingsDialog(settings: settings);
+                              });
+                          if (a != null) {
+                            setState(() {
+                              settings = a;
+                            });
+                            fillArray();
+                          }
+                        },
                   icon: Icon(Icons.settings),
                 ),
                 DropdownButton(
                   value: algo,
-                  onChanged: (String? s) {
-                    setState(() {
-                      algo = s!;
-                    });
-                  },
+                  onChanged: isSorting
+                      ? null
+                      : (String? s) {
+                          setState(() {
+                            algo = s!;
+                          });
+                        },
                   items: <String>[
                     'Bubble',
                     'Merge',
@@ -126,7 +142,6 @@ class _HomePageState extends State {
                 ),
               ],
             ),
-            //Text((array.length == 0 ? "Randomize the array" :  array).toString())
           ],
         ),
       ),
