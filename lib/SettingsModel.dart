@@ -3,7 +3,10 @@ class SettingsModel {
   int milliDelay;
   ArrayFillModel fillMethod;
 
-  SettingsModel({required this.arraySize, required this.fillMethod,required this.milliDelay});
+  SettingsModel(
+      {required this.arraySize,
+      required this.fillMethod,
+      required this.milliDelay});
 }
 
 enum ArrayFillModel { Random, RandomSortedReverse }

@@ -62,7 +62,6 @@ class _SettingsDialogState extends State {
                   }
                   return null;
                 }),
-
             FormBuilderTextField(
               name: 'delay',
               keyboardType: TextInputType.number,
@@ -84,7 +83,8 @@ class _SettingsDialogState extends State {
               },
               decoration: InputDecoration(
                   labelText: "Delay duration",
-                  hintText: "Enter the number of milliseconds to wait b.w operations"),
+                  hintText:
+                      "Enter the number of milliseconds to wait b.w operations"),
             ),
           ],
         ),

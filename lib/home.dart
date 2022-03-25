@@ -20,10 +20,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State {
-  SettingsModel settings =
-      SettingsModel(arraySize: 30, fillMethod: ArrayFillModel.Random,milliDelay: 100);
+  SettingsModel settings = SettingsModel(
+      arraySize: 30, fillMethod: ArrayFillModel.Random, milliDelay: 100);
   List<int> array = [];
-  bool isPlaying = false;
   String algo = "Bubble";
 
   fillArray() {
@@ -113,14 +112,13 @@ class _HomePageState extends State {
     }
   }
 
-   bubbleSort(List<int> list) async {
+  bubbleSort(List<int> list) async {
     if (list.length == 0) return;
 
     int n = list.length;
     int i, step;
     for (step = 0; step < n; step++) {
       for (i = 0; i < n - step - 1; i++) {
-        if (!isPlaying) return;
         if (list[i] > list[i + 1]) {
           swap(list, i);
           await Future.delayed(Duration(milliseconds: settings.milliDelay));
@@ -139,21 +137,10 @@ class _HomePageState extends State {
   }
 
   start() async {
-    final old = isPlaying;
-    setState(() {
-      isPlaying = !isPlaying;
-    });
-
-    if (!old) {
-      if (algo == "Bubble"){
+    if (algo == "Bubble") {
       await bubbleSort(array);
-      } else if(algo == "Merge") {
+    } else if (algo == "Merge") {
       await mergeSort(array, 0, array.length - 1);
-      }
-
-      setState(() {
-        isPlaying = false;
-      });
     }
   }
 
@@ -173,7 +160,7 @@ class _HomePageState extends State {
               children: [
                 OutlinedButton(child: Text("Randomize"), onPressed: fillArray),
                 IconButton(
-                    icon: Icon(!isPlaying ? Icons.play_arrow : Icons.pause),
+                    icon: Icon( Icons.play_arrow),
                     onPressed: start),
                 IconButton(
                   onPressed: () async {
@@ -190,14 +177,16 @@ class _HomePageState extends State {
                   icon: Icon(Icons.settings),
                 ),
                 DropdownButton(
-                    value: algo,
-                    onChanged: (String? s) {
-                      setState(() {
-                        algo = s!;
-                      });
-                    },
-                  items: <String>['Bubble', 'Merge',]
-                      .map<DropdownMenuItem<String>>((String value) {
+                  value: algo,
+                  onChanged: (String? s) {
+                    setState(() {
+                      algo = s!;
+                    });
+                  },
+                  items: <String>[
+                    'Bubble',
+                    'Merge',
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
