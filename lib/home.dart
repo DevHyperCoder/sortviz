@@ -4,10 +4,12 @@
 
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sortviz/SettingsModel.dart';
 import 'package:sortviz/Sort.dart';
 import 'package:sortviz/SortViz.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'SettingsDialog.dart';
 
@@ -73,6 +75,44 @@ class _HomePageState extends State {
     return Scaffold(
       appBar: AppBar(
         title: Text("SortViz"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AboutDialog(
+                        applicationLegalese: "© DevHyperCoder",
+                        applicationIcon: Icon(Icons.more),
+                        applicationVersion: "0.0.1",
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            width: 300,
+                            child: Column(children: [
+                              Text(
+                                  "SortViz is a sorting visualiser, making use of the Flutter canvas API and more. SortViz is Free and Open Source Software, licensed under the GNU GPL 3."),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          launch("https://github.com/DevHyperCoder/sortviz.git");
+                                        },
+                                        child: Text("GitHub"),
+                                      )),
+                                ],
+                              )
+                            ]),
+                          ),
+                        ],
+                      );
+                    });
+              },
+              icon: Icon(Icons.info_outline))
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
