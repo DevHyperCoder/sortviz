@@ -99,7 +99,8 @@ class _HomePageState extends State {
                                       padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                                       child: TextButton(
                                         onPressed: () {
-                                          launch("https://github.com/DevHyperCoder/sortviz.git");
+                                          launch(
+                                              "https://github.com/DevHyperCoder/sortviz.git");
                                         },
                                         child: Text("GitHub"),
                                       )),
