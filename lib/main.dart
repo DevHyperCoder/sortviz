@@ -21,11 +21,11 @@ class App extends StatelessWidget {
         "/": (ctx) => HomePage(),
       },
       onGenerateRoute: (settings) {
-        if (settings.name == SettingsDialog.route) {
+        if (settings.name == SettingsPage.route) {
           final args = settings.arguments as SettingsModel;
 
           return MaterialPageRoute(
-            builder: (context) => SettingsDialog(settings: args),
+            builder: (context) => SettingsPage(settings: args),
           );
         }
         return null;

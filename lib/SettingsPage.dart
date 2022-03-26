@@ -4,23 +4,21 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sortviz/SettingsModel.dart';
 
-class SettingsDialog extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   static final String route = "/settings";
   final SettingsModel settings;
 
-  SettingsDialog({required this.settings});
+  SettingsPage({required this.settings});
 
   @override
-  State<StatefulWidget> createState() =>
-      _SettingsDialogState(settings: settings);
+  State<StatefulWidget> createState() => _SettingsPageState(settings: settings);
 }
 
-class _SettingsDialogState extends State {
+class _SettingsPageState extends State {
   SettingsModel settings;
-  _SettingsDialogState({required this.settings});
+  _SettingsPageState({required this.settings});
 
   final _key = GlobalKey<FormBuilderState>();
-
 
   Widget build(BuildContext context) {
     return Scaffold(
