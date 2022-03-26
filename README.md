@@ -8,6 +8,8 @@ Sorting (and search) visualiser made in flutter
 
 ![Bubble sort](./res/bubble.png)
 ![Merge sort](./res/merge.png)
+![Sorted screen on mobile](./res/main.jpeg)
+![Settings mobile](./res/settings.jpeg)
 
 ## LICENSE 
 
