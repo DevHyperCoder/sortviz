@@ -144,49 +144,61 @@ class _HomePageState extends State {
             ),
             Row(
               children: [
-                OutlinedButton(
-                    child: Text("Randomize"),
-                    onPressed: isSorting ? null : fillArray),
-                IconButton(
-                    icon: Icon(Icons.play_arrow),
-                    onPressed: isSorting ? null : start),
-                IconButton(
-                  onPressed: isSorting
-                      ? null
-                      : () async {
-                          SettingsModel? a = await showDialog(
-                              context: context,
-                              builder: (b) {
-                                return SettingsDialog(settings: settings);
-                              });
-                          if (a != null) {
-                            setState(() {
-                              settings = a;
-                            });
-                            fillArray();
-                          }
-                        },
-                  icon: Icon(Icons.settings),
+                Tooltip(
+                  message: "Randomize the array",
+                  child: OutlinedButton(
+                      child: Text("Randomize"),
+                      onPressed: isSorting ? null : fillArray),
                 ),
-                DropdownButton(
-                  value: algo,
-                  onChanged: isSorting
-                      ? null
-                      : (String? s) {
-                          setState(() {
-                            algo = s!;
-                          });
-                        },
-                  items: <String>[
-                    'Bubble',
-                    'Merge',
-                    'Quick',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Tooltip(
+                  message: isSorting ? "Sorting..." : "Start sorting",
+                  child: IconButton(
+                      icon: Icon(Icons.play_arrow),
+                      onPressed: isSorting ? null : start),
+                ),
+                Tooltip(
+                  message: "Settings",
+                  child: IconButton(
+                    onPressed: isSorting
+                        ? null
+                        : () async {
+                            SettingsModel? a = await showDialog(
+                                context: context,
+                                builder: (b) {
+                                  return SettingsDialog(settings: settings);
+                                });
+                            if (a != null) {
+                              setState(() {
+                                settings = a;
+                              });
+                              fillArray();
+                            }
+                          },
+                    icon: Icon(Icons.settings),
+                  ),
+                ),
+                Tooltip(
+                  message: "Sorting method",
+                  child: DropdownButton(
+                    value: algo,
+                    onChanged: isSorting
+                        ? null
+                        : (String? s) {
+                            setState(() {
+                              algo = s!;
+                            });
+                          },
+                    items: <String>[
+                      'Bubble',
+                      'Merge',
+                      'Quick',
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ],
             ),
