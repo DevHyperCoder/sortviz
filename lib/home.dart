@@ -4,14 +4,11 @@
 
 import 'dart:math';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sortviz/SettingsModel.dart';
 import 'package:sortviz/Sort.dart';
 import 'package:sortviz/SortViz.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'SettingsDialog.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({
@@ -162,11 +159,10 @@ class _HomePageState extends State {
                     onPressed: isSorting
                         ? null
                         : () async {
-                            SettingsModel? a = await showDialog(
-                                context: context,
-                                builder: (b) {
-                                  return SettingsDialog(settings: settings);
-                                });
+                            final a = await Navigator.pushNamed(
+                                    context, "/settings", arguments: settings)
+                                as SettingsModel?;
+
                             if (a != null) {
                               setState(() {
                                 settings = a;
