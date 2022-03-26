@@ -34,8 +34,8 @@ class _SortVizPainter extends CustomPainter {
     double prev = 0;
 
     array.forEach((element) {
-      final e = Rect.fromLTRB(prev.toDouble(), size.height - (element * unitH),
-          prev + lineWidth, size.height - 4);
+      final e = Rect.fromLTRB(prev, size.height - (element * unitH),
+          prev + lineWidth, size.height);
       canvas.drawRect(e, paint);
       prev += lineWidth;
     });
