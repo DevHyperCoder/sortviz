@@ -1,7 +1,5 @@
 # sortviz
 
-**WIP**
-
 Sorting (and search) visualiser made in flutter
 
 ## Screenshots
